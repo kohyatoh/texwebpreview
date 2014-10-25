@@ -27,6 +27,6 @@ clean:
 
 $(OUT): $(LOCAL_TEX)
 	iconv -t $(TEX_ENCODING) $< > $<.gen.tex
-	latex $<.gen.tex
+	latex $<.gen.tex < /dev/null
 	dvipdfmx -o $@ $<.gen.dvi
 	rm *.gen.*

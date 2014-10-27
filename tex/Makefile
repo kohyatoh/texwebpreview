@@ -1,7 +1,7 @@
 OUT := out.pdf
 LOCAL_TEX := local.tex
 
--include vars.mak
+-include vars.mk
 
 ifeq ($(TEX_ENCODING),)
     TEX_ENCODING = utf-8
@@ -13,7 +13,7 @@ default: all
 
 all: clean sync $(OUT)
 
-vars.mak: urls.csv
+vars.mk: urls.csv
 	./genvars.py < $< > $@
 
 $(WEB_TEX): %.tex:
@@ -23,7 +23,7 @@ $(WEB_TEX): %.tex:
 sync: $(WEB_TEX)
 
 clean:
-	rm -f $(OUT) *.gen.* $(VARS)
+	rm -f $(OUT) $(WEB_TEX) *.gen.* vars.mk
 
 $(OUT): $(LOCAL_TEX)
 	iconv -t $(TEX_ENCODING) $< > $<.gen.tex

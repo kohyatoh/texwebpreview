@@ -1,10 +1,7 @@
 OUT := out.pdf
-
 LOCAL_TEX := local.tex
-WEB_TEX := web.tex
 
-# put Google Docs url here (be sure to make them shared through link)
-url_web := https://docs.google.com/document/d/1rcj4jeUfGwKZUbcX9iz9qeTStEu2VLnr_OxpSpuStUw/edit
+-include vars.mak
 
 ifeq ($(TEX_ENCODING),)
     TEX_ENCODING = utf-8
@@ -16,14 +13,17 @@ default: all
 
 all: clean sync $(OUT)
 
+vars.mak: urls.csv
+	./genvars.py < $< > $@
+
 $(WEB_TEX): %.tex:
-	curl "$(subst edit,export,$(url_web))?format=txt" | tail -c +4 > $@
+	curl "$(subst edit,export,$(url_$@))?format=txt" | tail -c +4 > $@
 	dos2unix $@
 
 sync: $(WEB_TEX)
 
 clean:
-	rm -f $(OUT) *.gen.*
+	rm -f $(OUT) *.gen.* $(VARS)
 
 $(OUT): $(LOCAL_TEX)
 	iconv -t $(TEX_ENCODING) $< > $<.gen.tex

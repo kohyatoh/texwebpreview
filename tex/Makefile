@@ -1,26 +1,18 @@
 OUT := out.pdf
 LOCAL_TEX := local.tex
 
--include vars.mk
-
 ifeq ($(TEX_ENCODING),)
     TEX_ENCODING = utf-8
 endif
 
-.PHONY: $(WEB_TEX)
+.PHONY: default all sync clean
 
 default: all
 
 all: clean sync $(OUT)
 
-vars.mk: urls.csv
-	./genvars.py < $< > $@
-
-$(WEB_TEX): %.tex:
-	curl "$(subst edit,export,$(url_$@))?format=txt" | tail -c +4 > $@
-	dos2unix $@
-
-sync: $(WEB_TEX)
+sync:
+	../scripts/download.py < urls.csv
 
 clean:
 	rm -f $(OUT) $(WEB_TEX) *.gen.* vars.mk

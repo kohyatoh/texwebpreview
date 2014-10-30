@@ -1,5 +1,9 @@
 <?php
 $dir = empty($_GET['dir']) ? 'skeleton' : $_GET['dir'];
+if (!preg_match('/\A\w+\z/', $dir)) {
+    echo "invalid parameter";
+    exit(1);
+}
 
 system('./scripts/compile.sh ' . escapeshellarg($dir), $err);
 if ($err == 0) {

@@ -8,6 +8,6 @@ if ($err == 0) {
 }
 else {
     echo '<pre>';
-    echo file_get_contents("./$dir.out/log.txt");
+    echo htmlspecialchars(file_get_contents("./$dir.out/log.txt"));
     echo '</pre>';
 }

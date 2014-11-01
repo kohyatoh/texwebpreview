@@ -5,13 +5,14 @@ if (!preg_match('/\A\w+\z/', $dir)) {
     exit(1);
 }
 
-system('./scripts/compile.sh ' . escapeshellarg($dir), $err);
+$logname = tempnam('log', 'log_');
+system('./scripts/compile.sh ' . escapeshellarg($dir) . ' ' . $logname, $err);
 if ($err == 0) {
     header('Content-Type: application/pdf');
     echo file_get_contents("./$dir.out/out.pdf");
 }
 else {
     echo '<pre>';
-    echo htmlspecialchars(file_get_contents("./$dir.out/log.txt"));
+    echo htmlspecialchars(file_get_contents($logname));
     echo '</pre>';
 }

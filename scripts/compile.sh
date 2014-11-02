@@ -1,15 +1,16 @@
 #!/bin/bash
 
 BASEDIR=`dirname $0`/..
-FROM=$1
+NAME=$1
 LOG=$2
-OUT=${FROM}.out
+IN=tex/${NAME}
+OUT=out/${NAME}
 
-if [ -d "$FROM" ]; then
+if [ -d "$IN" ]; then
   {
     cd $BASEDIR
-    mkdir -p "$OUT"
-    cp -p -r "$FROM"/* "$FROM"/.[!.]* "$OUT"
+    rm -rf "$OUT"
+    cp -p -r "$IN" "$OUT"
     cd "$OUT"
     make all
   } > $LOG 2>&1

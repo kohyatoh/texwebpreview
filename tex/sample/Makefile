@@ -12,7 +12,7 @@ default: all
 all: clean sync $(OUT)
 
 sync:
-	../scripts/download.py < urls.csv
+	../../scripts/download.py < urls.csv
 
 clean:
 	rm -f $(OUT) $(WEB_TEX) *.gen.* vars.mk

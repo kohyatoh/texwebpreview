@@ -15,5 +15,6 @@ for line in sys.stdin:
         url = url[0:-len("/edit")]
     url = url + "/export?format=txt"
     print >>sys.stderr, "downloading %s: %s" % (name, url)
-    with open(name, "w") as f:
-        print >>f, download(url)
+    f = open(name, "w")
+    print >>f, download(url)
+    f.close()
